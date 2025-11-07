@@ -25,14 +25,18 @@ class Repositorio(BaseModel):
     id_projeto: int
 
 # --- Projetos ---
-@router.get("/projetos")
-def get_projetos():
-    projetos = dao.listar_projetos()
-    print("Projetos carregados:", projetos)  # <-- aqui imprime no console do servidor
-    return {"projetos": projetos}
+@router.get("/projetos/{id_idealizador}")
+def get_projetos(id_idealizador: int):
+    projetos = dao.listar_projetos(id_idealizador)
+    print(f"🧠 Projetos carregados (idealizador={id_idealizador}):", projetos)
+    return {"projetos": projetos or []}
+
+
+
+
 
 # Obter um único projeto
-@router.get("/projetos/{id_projeto}")
+@router.get("/projeto/{id_projeto}")
 def get_projeto(id_projeto: int):
     projeto = dao.buscar_projeto_por_id(id_projeto)
     if not projeto:
