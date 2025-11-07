@@ -2,14 +2,19 @@ from database.connection import get_connection
 
 
 # ============================================================
-# 🔹 LISTAR TODOS OS PROJETOS
+# 🔹 LISTAR TODOS OS PROJETOS DE UM IDEALIZADOR
 # ============================================================
-def listar_projetos():
+def listar_projetos(id_idealizador: int):
     conexao = get_connection()
     cursor = conexao.cursor()
-    cursor.execute("SELECT * FROM projetos")
+    
+    # 🔍 Filtra os projetos pelo id_idealizador
+    cursor.execute("SELECT * FROM projetos WHERE id_idealizador = ?", (id_idealizador,))
     linhas = cursor.fetchall()
+    
     conexao.close()
+
+    # 🔄 Transforma cada linha em um dicionário
     return [
         {
             "id": l[0],
@@ -22,6 +27,7 @@ def listar_projetos():
         }
         for l in linhas
     ]
+
 
 
 # ============================================================
